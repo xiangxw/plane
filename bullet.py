@@ -8,10 +8,7 @@ class Bullet:
         self.direction = direction
         self.image = Bullet.getImageByIndex(imageIndex)
         self.rect = self.image.get_rect()
-        # 子弹中心在屏幕的x坐标
         self.rect.centerx = x
-        # 如果子弹向下发射，则为子弹下方在屏幕的y坐标
-        # 如果子弹向上发射，则为子弹上方在屏幕的y坐标
         if direction == CONST.UP:
             self.rect.top = y
         elif direction == CONST.DOWN:
@@ -22,7 +19,6 @@ class Bullet:
         self.isDead = dead
     
     def isValid(self):
-        # TODO 与其他飞机接触
         if self.direction == CONST.UP:
             return self.rect.bottom > 0
         elif self.direction == CONST.DOWN:

@@ -4,7 +4,7 @@ from aggressive import Aggressive
 from bullet import Bullet
 import const as CONST
 
-BOTTOM_MARGIN = 10 # 飞机底距屏幕底部的距离
+BOTTOM_MARGIN = 10
 
 class Hero(Aggressive):
     def __init__(self, game):

@@ -12,7 +12,7 @@ class Game:
         pygame.mixer.init()
         pygame.mixer.music.load("sound/bgm.mp3")
         self.bombSound = pygame.mixer.Sound("sound/bomb.mp3")
-        pygame.display.set_caption("飞机大战(移动:WSAD)")
+        pygame.display.set_caption("Plane(press WSAD to move)")
         self.screen = pygame.display.set_mode((480, 680))
         self.clock = pygame.time.Clock()
         self.font = pygame.font.SysFont("kaiti", 24)
@@ -46,7 +46,7 @@ class Game:
             self.hero.handleEvent(events)
     
     def refreshEnemy(self):
-        # 删除被打中的敌机
+        # delete hited enemy
         for bullet in self.hero.bullets:
             if bullet.isDead: continue
             bulletRect = bullet.rect
@@ -60,10 +60,10 @@ class Game:
                         self.maxScore = self.score
                     break
 
-        # 删除无用的敌机
+        # remove useless enemies
         self.enemyList = [enemy for enemy in self.enemyList if enemy.isValid() and (not enemy.isDead)]
 
-        # 刷新速度
+        # refresh speed
         if self.newEnemySpeedRatioCounter > CONST.FPS:
             self.newEnemySpeedRatioCounter = 0
             self.newEnemySpeed += CONST.NEW_ENEMY_SPEED_RATIO
@@ -71,7 +71,7 @@ class Game:
         else:
             self.newEnemySpeedRatioCounter += 1
 
-        # 刷新新的敌机
+        # gen new enemies
         if self.newEnemyCounter >= self.newEnemyCounterMax:
             self.newEnemyCounter = 0
             enemy = Enemy.genEnemy(self)
@@ -80,13 +80,12 @@ class Game:
             self.newEnemyCounter += 1
     
     def checkLife(self):
-        # 检查与敌机的碰撞
+        # check collide with enemies
         heroRect = self.hero.rect
         for enemy in self.enemyList:
             if enemy.rect.colliderect(heroRect):
                 return False
         
-        # TODO 检查与子弹的碰撞
         return True
     
     def readMaxScore(self):
@@ -105,21 +104,21 @@ class Game:
 
 
     def tick(self):
-        # 背景
+        # background
         self.screen.blit(self.backgroundImage, (0, 0))
         
-        # 显示fps
+        # show fps
         if CONST.SHOW_FPS:
             fpsSurface = self.font.render(f"fps:{int(self.clock.get_fps())}", True, pygame.Color(125, 125, 125))
             fpsRect = fpsSurface.get_rect()
             fpsRect.topleft = (10, 10)
             self.screen.blit(fpsSurface, fpsRect)
         
-        # 敌机刷新
+        # gen enemies
         if not self.gameOver:
             self.refreshEnemy()
 
-        # 敌机
+        # enemy tick
         if not self.gameOver:
             for enemy in self.enemyList:
                 enemy.tick()
@@ -128,21 +127,21 @@ class Game:
         if not self.gameOver:
             self.hero.tick()
 
-        # 分数
-        scoreSurface = self.font.render(f"分数:{self.score}", True, pygame.Color(125, 125, 125))
+        # score
+        scoreSurface = self.font.render(f"Score:{self.score}", True, pygame.Color(125, 125, 125))
         scoreRect = scoreSurface.get_rect()
         scoreRect.topright = (self.screen.get_width() - 10, 10)
         self.screen.blit(scoreSurface, scoreRect)
 
-        # 最高分
-        maxScoreSurface = self.font.render(f"最高分:{self.maxScore}", True, pygame.Color(125, 125, 125))
+        # top score
+        maxScoreSurface = self.font.render(f"Top Score:{self.maxScore}", True, pygame.Color(125, 125, 125))
         maxScoreRect = maxScoreSurface.get_rect()
         maxScoreRect.topright = (self.screen.get_width() - 10, 40)
         self.screen.blit(maxScoreSurface, maxScoreRect)
 
-        # 游戏结束
+        # game over
         if self.gameOver:
-            gameOverSurface = self.font.render("游戏结束", True, pygame.Color(255, 255, 255))
+            gameOverSurface = self.font.render("Game Over", True, pygame.Color(255, 255, 255))
             gameOverRect = gameOverSurface.get_rect()
             gameOverRect.center = self.screen.get_rect().center
             self.screen.blit(gameOverSurface, gameOverRect)

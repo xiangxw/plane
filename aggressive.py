@@ -12,26 +12,26 @@ class Aggressive:
         self.bulletIndex = config.get("bulletIndex", 1)
         self.autoFire = config.get("autoFire", True)
         self.rect = self.image.get_rect()
-        self.fireCounter = 0 # 发射子弹用的计数器
-        self.fireCounterMax = CONST.FPS / CONST.FIRE_SPEED # 达到计数值时，发射子弹
+        self.fireCounter = 0 # fire counter
+        self.fireCounterMax = CONST.FPS / CONST.FIRE_SPEED # when fireCounter reach this, fire
         self.bullets = []
     
     def tick(self):
         if self.autoFire:
-            # 检查是否需要发射子弹
+            # fire or not
             if self.fireCounter >= self.fireCounterMax:
                 self.fireCounter = 0
                 self.fire()
             self.fireCounter += 1
 
-            # 检查子弹是否需要删除
+            # remove useless bullets
             self.bullets = [bullet for bullet in self.bullets if bullet.isValid() and (not bullet.isDead)]
 
-            # 调用子弹的tick
+            # bullet tick
             for bullet in self.bullets:
                 bullet.tick()
 
-        # 把自己画出来
+        # draw
         self.game.screen.blit(self.image, self.rect)
     
     def fire(self):
