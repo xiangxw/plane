@@ -4,7 +4,7 @@ Video: <https://youtu.be/CfsSOSZFHNk>
 
 ## Run with binary file directly
 
-Download and double click: <https://github.com/xiangxw/plane/releases/download/0.1/plane.exe>
+Download and extract plane.zip, then double click plane.exe: <https://github.com/xiangxw/plane/releases/download/0.1/plane.zip>
 
 ## How to run from source
 
